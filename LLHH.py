@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
 import sqlite3
-import xlsxwriter
 import pandas as pd
 import hashlib
 import random
