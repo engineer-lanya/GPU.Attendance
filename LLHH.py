@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import streamlit as st
 import sqlite3
+import xlsxwriter
 import pandas as pd
 import hashlib
 import random
@@ -159,20 +160,37 @@ def dept_admin_panel():
             
             df_report = pd.DataFrame(rep_list)
             st.dataframe(df_report.style)
+
+        elif menu == "ڕاپۆرتی گشتی":
+            st.subheader("دابەزاندنی زانیارییەکان بۆ ئێکسڵ")
+        
+        # هێنانەوەی داتاکان لە داتابەیس
+        data = execute_query("SELECT * FROM students WHERE dept=?", (dept,), fetch_all=True)
+        
+        if data:
+            df = pd.DataFrame(data)
             
+            # بەکارهێنانی io بۆ ئەوەی پێویستت بە خەزنکردن نەبێت لەسەر سێرڤەر
             import io
             buffer = io.BytesIO()
-            with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-                df_report.to_excel(writer, index=False, sheet_name='General_Report')
+            
+            # لێرەدا engine دیاری ناکەین بۆ ئەوەی پایتۆن خۆی باشترین هەڵبژێرێت
+            with pd.ExcelWriter(buffer) as writer:
+                df.to_excel(writer, index=False, sheet_name='Sheet1')
             
             st.download_button(
-                label="📥 دابەزاندنی ڕاپۆرت وەک Excel",
+                label="📥 داگرتنی فایلی ئێکسڵ",
                 data=buffer.getvalue(),
-                file_name=f"Report_Stage_{sel_stage}.xlsx",
-                mime="application/vnd.ms-excel"
+                file_name=f"report_{dept}.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
         else:
-            st.warning("هیچ زانیارییەک بۆ ئەم قۆناغە نییە")
+            st.warning("هیچ داتایەک نییە بۆ ناردن.")
+
+            
+            
+        
+
 
 
 def teacher_panel():
