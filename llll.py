@@ -161,7 +161,7 @@ def dept_admin_panel():
             st.dataframe(df_report.style)
             
             
-            csv_data = df.to_csv(index=False).encode('utf-8-sig')
+            csv_data = df_report.to_csv(index=False).encode('utf-8-sig')
             st.download_button(
                  label="📥داگرتنی ڕاپۆرت",
                  data=csv_data,
