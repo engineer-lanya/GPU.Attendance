@@ -167,12 +167,12 @@ def dept_admin_panel():
             
            csv_data = df.to_csv(index=False).encode('utf-8-sig')
 
-st.download_button(
-    label="📥داگرتنی ڕاپۆرت",
-    data=csv_data,
-    file_name="attendance_report.csv",
-    mime="text/csv"
-)
+           st.download_button(
+            label="📥داگرتنی ڕاپۆرت",
+            data=csv_data,
+            file_name="attendance_report.csv",
+            mime="text/csv" 
+            )
         else:
             st.warning("هیچ زانیارییەک بۆ ئەم قۆناغە نییە")
 
