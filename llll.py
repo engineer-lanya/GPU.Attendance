@@ -165,12 +165,14 @@ def dept_admin_panel():
             with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
                 df_report.to_excel(writer, index=False, sheet_name='General_Report')
             
-            st.download_button(
-                label="📥 دابەزاندنی ڕاپۆرت وەک Excel",
-                data=buffer.getvalue(),
-                file_name=f"Report_Stage_{sel_stage}.xlsx",
-                mime="application/vnd.ms-excel"
-            )
+           csv_data = df.to_csv(index=False).encode('utf-8-sig')
+
+st.download_button(
+    label="📥داگرتنی ڕاپۆرت",
+    data=csv_data,
+    file_name="attendance_report.csv",
+    mime="text/csv"
+)
         else:
             st.warning("هیچ زانیارییەک بۆ ئەم قۆناغە نییە")
 
