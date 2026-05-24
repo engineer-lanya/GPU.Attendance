@@ -160,10 +160,6 @@ def dept_admin_panel():
             df_report = pd.DataFrame(rep_list)
             st.dataframe(df_report.style)
             
-            import io
-            buffer = io.BytesIO()
-            with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-                df_report.to_excel(writer, index=False, sheet_name='General_Report')
             
             csv_data = df.to_csv(index=False).encode('utf-8-sig')
             st.download_button(
